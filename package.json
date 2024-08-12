@@ -5,19 +5,15 @@
   "license": "MIT",
   "version": "1.0.1",
   "author": "vprufus7",
-  "main": "./dist/dist.js",
+  "main": "./lib/main.js",
   "publisher": "vprufus7",
   "repository": {
     "url": "git+https://github.com/bedrock-libraries/bedrock-wss-reload.git",
     "type": "git"
   },
   "scripts": {
-    "esbuild-base": "esbuild ./src/main.ts --bundle --outfile=dist/dist.js --format=cjs --platform=node --target=node16",
-    "esbuild": "npm run esbuild-base --sourcemap",
-    "esbuild-watch": "npm run esbuild-base --sourcemap --watch",
     "test-compile": "tsc -p ./",
-    "watch-tests": "tsc -p . -w --outDir out",
-    "all": "npm run lint && npm run esbuild",
+    "all": "npm run lint && tsc",
     "lint": "eslint src --ext ts",
     "test": "node ./out/test/runTest.js",
     "prepublish": "npm run all"
@@ -42,7 +38,7 @@
     "ws": "^8.8.0"
   },
   "files": [
-    "dist/*"
+    "lib/*"
   ],
   "bugs": {
     "url": "https://github.com/bedrock-libraries/bedrock-wss-reload/issues"
