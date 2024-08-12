@@ -1,0 +1,51 @@
+{
+  "name": "@bedrock-libraries/minecraft-auto-reloader",
+  "displayName": "Minecraft Auto Reloader",
+  "description": "This is an extension that automatically executes a reload command when a file is changed.",
+  "license": "MIT",
+  "version": "1.0.1",
+  "author": "vprufus7",
+  "main": "./dist/dist.js",
+  "publisher": "vprufus7",
+  "repository": {
+    "url": "git+https://github.com/bedrock-libraries/bedrock-wss-reload.git",
+    "type": "git"
+  },
+  "scripts": {
+    "esbuild-base": "esbuild ./src/main.ts --bundle --outfile=dist/dist.js --format=cjs --platform=node --target=node16",
+    "esbuild": "npm run esbuild-base --sourcemap",
+    "esbuild-watch": "npm run esbuild-base --sourcemap --watch",
+    "test-compile": "tsc -p ./",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "all": "npm run lint && npm run esbuild",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js",
+    "prepublish": "npm run all"
+  },
+  "devDependencies": {
+    "@types/glob": "^7.2.0",
+    "@types/mocha": "^9.1.1",
+    "@types/node": "16.x",
+    "@types/uuid": "^8.3.4",
+    "@types/ws": "^8.5.3",
+    "@typescript-eslint/eslint-plugin": "^5.27.0",
+    "@typescript-eslint/parser": "^5.27.0",
+    "esbuild": "^0.14.44",
+    "eslint": "^8.16.0",
+    "glob": "^8.0.3",
+    "mocha": "^10.0.0",
+    "typescript": "^4.7.2",
+    "vsce": "^2.9.2"
+  },
+  "dependencies": {
+    "uuid": "^8.3.2",
+    "ws": "^8.8.0"
+  },
+  "files": [
+    "dist/*"
+  ],
+  "bugs": {
+    "url": "https://github.com/bedrock-libraries/bedrock-wss-reload/issues"
+  },
+  "homepage": "https://github.com/bedrock-libraries/bedrock-wss-reload#readme"
+}
