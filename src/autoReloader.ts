@@ -8,7 +8,16 @@ export interface ReloadOptions {
   all?: boolean;
 }
 
+export interface ScriptDebuggerOptions {
+  port: number;
+  host: string;
+}
+
 export const defaultReloadOptions: ReloadOptions = { all: false };
+export const defaultScriptDebuggerOptions: ScriptDebuggerOptions = {
+  port: 19144,
+  host: "localhost",
+};
 
 export class AutoReloader {
   private server!: MinecraftServer;
@@ -56,5 +65,22 @@ export class AutoReloader {
       }
     }
     this.output(`Reloaded`);
+  }
+  async connectScriptDebugger(
+    options: ScriptDebuggerOptions = defaultScriptDebuggerOptions
+  ) {
+    const command = `script debugger connect ${options.host} ${options.port}`;
+    for (const client of this.server.clients) {
+      const { status, message } = await this.server.sendCommand(
+        client,
+        command
+      );
+      if (status === 0) {
+        this.output("[Auto Reloader] Reloading was successful.");
+      } else {
+        this.output(`[Auto Reloader] Reload failed. Error: ${message}`);
+      }
+    }
+    this.output(`Debugger Connect command sent to client.`);
   }
 }
