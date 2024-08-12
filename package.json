@@ -3,7 +3,7 @@
   "displayName": "Minecraft Auto Reloader",
   "description": "This is an extension that automatically executes a reload command when a file is changed.",
   "license": "MIT",
-  "version": "1.1.0",
+  "version": "1.0.0",
   "author": "vprufus7",
   "main": "./lib/main.js",
   "publisher": "vprufus7",
@@ -34,6 +34,7 @@
     "vsce": "^2.9.2"
   },
   "dependencies": {
+    "semantic-release": "^24.0.0",
     "uuid": "^8.3.2",
     "ws": "^8.8.0"
   },
