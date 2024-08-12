@@ -52,7 +52,7 @@ export class AutoReloader {
       if (status === 0) {
         this.output("[Auto Reloader] Reloading was successful.");
       } else {
-        this.output(`[Auto Reloader] Reload failed.\nError: ${message}`);
+        this.output(`[Auto Reloader] Reload failed. Error: ${message}`);
       }
     }
     this.output(`Reloaded`);
