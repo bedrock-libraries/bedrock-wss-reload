@@ -1,42 +1,53 @@
-import { getConfiguration } from "./utils";
 import { MinecraftServer } from "./websocket";
 
-export class AutoReloader {
-  server!: MinecraftServer;
-  output!: (message: any) => void;
+export interface AutoReloaderConfiguration {
+  wssPort: number;
+}
 
-  constructor() {
+export interface ReloadOptions {
+  all?: boolean;
+}
+
+export const defaultReloadOptions: ReloadOptions = { all: false };
+
+export class AutoReloader {
+  private server!: MinecraftServer;
+  private output!: (message: any) => void;
+
+  constructor(private configuration: AutoReloaderConfiguration) {
     this.init();
   }
 
-  init() {
+  private init() {
     this.output = console.log;
+    this.start();
   }
 
-  start() {
-    const port = getConfiguration("port")!;
+  private start() {
+    const port = this.configuration.wssPort;
     this.#startServer(port);
     this.output(`Websocket server opened on port ${port}.`);
   }
 
-  stop() {
+  private stop() {
     this.server.dispose();
     this.output(`Websocket server closed.`);
   }
 
   dispose() {
-    this.server?.dispose();
+    this.stop();
   }
 
   #startServer(port: number) {
     this.server = new MinecraftServer(port);
   }
 
-  async reload() {
+  async reload(options: ReloadOptions = defaultReloadOptions) {
+    const command = options.all ? "reload all" : "reload";
     for (const client of this.server.clients) {
       const { status, message } = await this.server.sendCommand(
         client,
-        "reload"
+        command
       );
       if (status === 0) {
         this.output("[Auto Reloader] Reloading was successful.");

@@ -1,1 +1,6 @@
-export { AutoReloader } from "./autoReloader";
+export {
+  AutoReloader,
+  AutoReloaderConfiguration,
+  ReloadOptions,
+  defaultReloadOptions,
+} from "./autoReloader";
