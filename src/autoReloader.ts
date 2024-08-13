@@ -64,7 +64,7 @@ export class AutoReloader {
         this.output(`[Auto Reloader] Reload failed. Error: ${message}`);
       }
     }
-    this.output(`Reloaded`);
+    this.output(`Reloaded ${this.server.clients.keys.length} clients.`);
   }
   async connectScriptDebugger(
     options: ScriptDebuggerOptions = defaultScriptDebuggerOptions
@@ -81,6 +81,8 @@ export class AutoReloader {
         this.output(`[Auto Reloader] Reload failed. Error: ${message}`);
       }
     }
-    this.output(`Debugger Connect command sent to client.`);
+    this.output(
+      `Debugger Connect command sent to ${this.server.clients.keys.length} clients.`
+    );
   }
 }
