@@ -11,7 +11,7 @@ export function linkGameTestsTask(opts: LinkGameTestTaskOptions) {
   return async () => {
     const linkerFilePath = "scripts/linker.ts";
     const linkerFileContents: string[] = [];
-    if (opts.productionBuild) {
+    if (!opts.productionBuild) {
       const gameTestFiles = await glob("scripts/**/*.test.ts");
       for (const gameTestFilePath of gameTestFiles) {
         const relPath = path.relative("scripts", gameTestFilePath);
