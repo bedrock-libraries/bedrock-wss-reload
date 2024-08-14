@@ -5,3 +5,4 @@ export * from "./bds";
 export * from "./gameTest";
 export * from "./justExamples";
 export * from "./linker";
+export * from "./manifest";

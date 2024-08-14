@@ -43,7 +43,8 @@
     "unzipper": "^0.12.3",
     "glob": "^11.0.0",
     "uuid": "^8.3.2",
-    "ws": "^8.8.0"
+    "ws": "^8.8.0",
+    "@rushstack/node-core-library": "^5.6.0"
   },
   "files": [
     "lib/*",

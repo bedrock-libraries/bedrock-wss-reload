@@ -1,4 +1,4 @@
-import { task, series, parallel } from "just-scripts";
+import { task, series, parallel, argv } from "just-scripts";
 import {
   buildAllowedPacksForBdsTask,
   extractBdsTask,
@@ -7,6 +7,7 @@ import {
   mapBdsOptions,
 } from "./bds";
 import { runAllGameTestsTask } from "./gameTest";
+import { generateBpManifestTask } from "./manifest";
 
 export function stableCiTasks() {
   const platformId = mapBdsOptions({ preview: false });
@@ -16,7 +17,7 @@ export function stableCiTasks() {
     extractBdsTask({ platformId: platformId, cleanBdsFolder: true })
   );
   task("init-bds-world", initializeBdsFromWorldTemplateTask());
-  task("configure-bds", buildAllowedPacksForBdsTask());
+  task("bds-allowed-packs", buildAllowedPacksForBdsTask());
 
   task(
     "install-latest-bds",
@@ -24,8 +25,13 @@ export function stableCiTasks() {
       "assert-latest-bds",
       "extract-bds",
       "init-bds-world",
-      "configure-bds"
+      "bds-allowed-packs"
     )
+  );
+
+  task(
+    "generate-bp-manifest",
+    generateBpManifestTask({ filterOutGameTestModule: argv().prd })
   );
 
   task("run-tests", runAllGameTestsTask());
