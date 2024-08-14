@@ -22,14 +22,13 @@
     "@types/glob": "^7.2.0",
     "@types/mocha": "^9.1.1",
     "@types/node": "16.x",
+    "@types/unzipper": "^0.10.10",
     "@types/uuid": "^8.3.4",
     "@types/ws": "^8.5.3",
     "@typescript-eslint/eslint-plugin": "^8.1.0",
     "@typescript-eslint/parser": "^8.1.0",
     "esbuild": "^0.14.44",
     "eslint": "^8.16.0",
-    "glob": "^8.0.3",
-    "just-scripts": "^2.3.1",
     "mocha": "^10.0.0",
     "semantic-release": "^24.0.0",
     "ts-node": "^10.9.2",
@@ -37,13 +36,18 @@
     "vsce": "^2.9.2"
   },
   "dependencies": {
+    "just-scripts": "^2.3.1",
     "axios": "^1.7.4",
+    "cheerio": "^1.0.0",
+    "fastify": "^4.28.1",
+    "unzipper": "^0.12.3",
+    "glob": "^11.0.0",
     "uuid": "^8.3.2",
-    "ws": "^8.8.0",
-    "fastify": "^4.28.1"
+    "ws": "^8.8.0"
   },
   "files": [
-    "lib/*"
+    "lib/*",
+    "bds-template/*"
   ],
   "bugs": {
     "url": "https://github.com/bedrock-libraries/bedrock-wss-reload/issues"

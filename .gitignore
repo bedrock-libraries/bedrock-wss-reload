@@ -4,3 +4,7 @@ node_modules
 .vscode-test/
 *.vsix
 lib
+dl
+bds
+behavior_pack
+resource_pack
