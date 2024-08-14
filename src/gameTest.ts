@@ -7,11 +7,11 @@
 import { spawn, ChildProcessWithoutNullStreams } from "child_process";
 import * as readline from "readline";
 import { platform } from "os";
-import { glob, } from "glob";
+import { glob } from "glob";
 
 export function runAllGameTestsTask() {
   return async () => {
-    if ((await glob("behavior_pack/**/*.test.ts")).length === 0) {
+    if ((await glob("scripts/**/*.test.ts")).length === 0) {
       console.error("No game tests found.");
     } else {
       await runSuite();
