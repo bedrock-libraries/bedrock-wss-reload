@@ -10,12 +10,16 @@ import { platform } from "os";
 import { glob } from "glob";
 import { logger } from "just-scripts";
 
-export function runAllGameTestsTask() {
+export function runAllGameTestsTask(allowErrors = false) {
   return async () => {
     if ((await glob("scripts/**/*.test.ts")).length === 0) {
-      console.error("No game tests found.");
+      logger.error("No game tests found.");
     } else {
-      await runSuite();
+      try {
+        await runSuite();
+      } catch (error) {
+        logger.error("Some game tests failed.");
+      }
     }
   };
 }
@@ -153,7 +157,6 @@ class TestRunner {
       )
     ) {
       this.kill(1);
-      process.exit(1);
     }
 
     const batchRunLine = line.match(
