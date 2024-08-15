@@ -35,5 +35,4 @@ export function stableCiTasks() {
   );
 
   task("run-tests", runAllGameTestsTask());
-  task("ci-test", series("install-latest-bds", "run-tests"));
 }
