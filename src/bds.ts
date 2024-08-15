@@ -125,7 +125,7 @@ export function extractBdsTask(options: {
 }) {
   return async () => {
     if (options.cleanBdsFolder) {
-      await fsp.rm("bds", { recursive: true });
+      FileSystem.ensureEmptyFolder("bds");
     }
     const zipPath = bdsLatestVersionCache.get(options.platformId);
     if (!zipPath) {
@@ -135,7 +135,6 @@ export function extractBdsTask(options: {
     }
     const dir = await unzipper.Open.file(zipPath);
     console.info(`Extracting ${zipPath} to 'bds' folder.`);
-    FileSystem.ensureEmptyFolder("bds");
     await dir.extract({ path: "bds" });
     await fsp.copyFile(bdsServerPropertiesDefaultPath, "bds/server.properties");
   };
