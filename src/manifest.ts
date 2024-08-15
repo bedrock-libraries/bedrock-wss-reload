@@ -3,7 +3,6 @@ import { FileSystem, JsonFile, JsonSchema } from "@rushstack/node-core-library";
 import { parse } from "semver";
 import * as path from "path";
 import { v4 } from "uuid";
-import { argv, logger } from "just-scripts";
 
 
 const minecraftModules = new Set([
