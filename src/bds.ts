@@ -6,6 +6,7 @@ import * as fs from "fs";
 import * as fsp from "fs/promises";
 import * as unzipper from "unzipper";
 import * as os from "os";
+import { FileSystem } from "@rushstack/node-core-library";
 
 function getPlatform() {
   return os.platform() === "win32" ? "win" : "linux";
@@ -134,6 +135,7 @@ export function extractBdsTask(options: {
     }
     const dir = await unzipper.Open.file(zipPath);
     console.info(`Extracting ${zipPath} to 'bds' folder.`);
+    FileSystem.ensureEmptyFolder("bds");
     await dir.extract({ path: "bds" });
     await fsp.copyFile(bdsServerPropertiesDefaultPath, "bds/server.properties");
   };
