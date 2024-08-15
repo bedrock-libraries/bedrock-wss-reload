@@ -25,7 +25,9 @@ export class ReloadServer {
     });
 
     this.server.get("/debugger_connect", async (_request, _reply) => {
-      await this.wss.connectScriptDebugger();
+      setTimeout(() => {
+        this.wss.connectScriptDebugger();
+      }, 3000);
       return { result: "OK" };
     });
 

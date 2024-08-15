@@ -31,20 +31,21 @@
     "eslint": "^8.16.0",
     "mocha": "^10.0.0",
     "semantic-release": "^24.0.0",
+    "ts-json-schema-generator": "^2.3.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.4",
     "vsce": "^2.9.2"
   },
   "dependencies": {
-    "just-scripts": "^2.3.1",
+    "@rushstack/node-core-library": "^5.6.0",
     "axios": "^1.7.4",
     "cheerio": "^1.0.0",
     "fastify": "^4.28.1",
-    "unzipper": "^0.12.3",
     "glob": "^11.0.0",
+    "just-scripts": "^2.3.1",
+    "unzipper": "^0.12.3",
     "uuid": "^8.3.2",
-    "ws": "^8.8.0",
-    "@rushstack/node-core-library": "^5.6.0"
+    "ws": "^8.8.0"
   },
   "files": [
     "lib/*",

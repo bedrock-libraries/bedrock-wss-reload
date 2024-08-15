@@ -6,7 +6,11 @@ import * as fs from "fs";
 import * as fsp from "fs/promises";
 import * as unzipper from "unzipper";
 import * as os from "os";
-import { FileSystem, PosixModeBits } from "@rushstack/node-core-library";
+import {
+  FileSystem,
+  JsonFile,
+  PosixModeBits,
+} from "@rushstack/node-core-library";
 
 function getPlatform() {
   return os.platform() === "win32" ? "win" : "linux";
@@ -136,10 +140,13 @@ export function extractBdsTask(options: {
     const dir = await unzipper.Open.file(zipPath);
     console.info(`Extracting ${zipPath} to 'bds' folder.`);
     await dir.extract({ path: "bds" });
-    FileSystem.changePosixModeBits(
-      "bds/bedrock_server",
-      PosixModeBits.AllExecute
-    );
+    try {
+      FileSystem.changePosixModeBits(
+        "bds/bedrock_server",
+        PosixModeBits.AllExecute
+      );
+    } catch {}
+
     await fsp.copyFile(bdsServerPropertiesDefaultPath, "bds/server.properties");
   };
 }
@@ -163,12 +170,12 @@ export function buildAllowedPacksForBdsTask() {
 }
 
 async function writeAllowedPacks(bdsDirPath: string) {
-  const bpManifestPaths = ["./dist/manifest/behavior_pack/manifest.json"];
-  const rpManifestPaths = ["resource_pack/manifest.json"];
+  const bpManifestPaths = ["./dist/packs/behavior_pack/manifest.json"];
+  const rpManifestPaths = ["./dist/packs/resource_pack/manifest.json"];
   const worldBps = [];
   const worldRps = [];
   for (const bpPath of bpManifestPaths) {
-    const bpData = JSON.parse((await fsp.readFile(bpPath)).toString());
+    const bpData = JsonFile.load(bpPath);
     for (const module of bpData.modules) {
       const permissions = { allowed_modules: [] };
       for (const dep of bpData.dependencies) {
@@ -178,13 +185,9 @@ async function writeAllowedPacks(bdsDirPath: string) {
         }
       }
       const configDir = `${bdsDirPath}/config/${module.uuid}/`;
-      try {
-        await fsp.mkdir(configDir, { recursive: true });
-      } catch (error) {}
-      await fsp.writeFile(
-        configDir + "permissions.json",
-        JSON.stringify(permissions)
-      );
+      JsonFile.save(permissions, configDir + "permissions.json", {
+        ensureFolderExists: true,
+      });
     }
     //@ts-ignore
     worldBps.push({
@@ -193,21 +196,19 @@ async function writeAllowedPacks(bdsDirPath: string) {
     });
   }
   for (const rpPath of rpManifestPaths) {
-    const rpData = JSON.parse((await fsp.readFile(rpPath)).toString());
+    const rpData = JsonFile.load(rpPath);
     //@ts-ignore
     worldRps.push({
       pack_id: rpData.header.uuid,
       version: rpData.header.version,
     });
   }
-  await Promise.all([
-    fsp.writeFile(
-      `${bdsDirPath}/worlds/Testville/world_behavior_packs.json`,
-      JSON.stringify(worldBps)
-    ),
-    fsp.writeFile(
-      `${bdsDirPath}/worlds/Testville/world_resource_packs.json`,
-      JSON.stringify(worldRps)
-    ),
-  ]);
+  JsonFile.save(
+    worldBps,
+    `${bdsDirPath}/worlds/Testville/world_behavior_packs.json`
+  );
+  JsonFile.save(
+    worldRps,
+    `${bdsDirPath}/worlds/Testville/world_resource_packs.json`
+  );
 }
