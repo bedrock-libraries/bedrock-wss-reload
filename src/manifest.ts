@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { FileSystem, JsonFile } from "@rushstack/node-core-library";
 import { parse } from "semver";
+import { setManifestVersion } from "./version";
 
 const minecraftModules = new Set([
   "@minecraft/server",
@@ -22,8 +23,15 @@ export interface GenerateBpManifestTaskOptions {
 export function generateBpManifestTask(options: GenerateBpManifestTaskOptions) {
   return async () => {
     const bpManifestPath = "behavior_pack/manifest.json";
+    const rpManifestPath = "resource_pack/manifest.json";
     const bp = JsonFile.load(bpManifestPath);
+    const rp = JsonFile.load(rpManifestPath);
     const packageJson = JsonFile.load("package.json");
+    const currentPackageJsonVersion = packageJson.version
+      .split(".")
+      .map((s: string) => {
+        return Number(s);
+      });
     const deps: BpDependency[] = bp.dependencies.filter((f: BpDependency) => {
       if (minecraftModules.has(f.module_name)) {
         return false;
@@ -54,7 +62,11 @@ export function generateBpManifestTask(options: GenerateBpManifestTaskOptions) {
       }
     }
     bp.dependencies = deps.sort();
+    setManifestVersion(bp, currentPackageJsonVersion);
+    setManifestVersion(rp, currentPackageJsonVersion);
     FileSystem.ensureEmptyFolder("./dist/manifest/behavior_pack");
+    FileSystem.ensureEmptyFolder("./dist/manifest/resource_pack");
     JsonFile.save(bp, "./dist/manifest/behavior_pack/manifest.json");
+    JsonFile.save(rp, "./dist/manifest/resource_pack/manifest.json");
   };
 }
