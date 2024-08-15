@@ -21,12 +21,7 @@ export function stableCiTasks() {
 
   task(
     "install-latest-bds",
-    series(
-      "assert-latest-bds",
-      "extract-bds",
-      "init-bds-world",
-      "bds-allowed-packs"
-    )
+    series("assert-latest-bds", "extract-bds", "init-bds-world")
   );
 
   task(

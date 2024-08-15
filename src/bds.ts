@@ -158,7 +158,7 @@ export function buildAllowedPacksForBdsTask() {
 }
 
 async function writeAllowedPacks(bdsDirPath: string) {
-  const bpManifestPaths = ["behavior_pack/manifest.json"];
+  const bpManifestPaths = ["./dist/manifest/behavior_pack/manifest.json"];
   const rpManifestPaths = ["resource_pack/manifest.json"];
   const worldBps = [];
   const worldRps = [];
