@@ -1,11 +1,12 @@
 import axios from "axios";
 import { ReloadServer, ReloadServerOptions } from "./reloadServer";
+import { logger } from "just-scripts";
 
 async function tryRequest(url: string) {
   try {
     await axios.get(url);
   } catch (error) {
-    console.error(`Error making request to ${url}.`);
+    logger.info(`Skipping reload. Server not running.`);
   }
 }
 

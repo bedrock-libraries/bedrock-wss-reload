@@ -49,7 +49,8 @@
   },
   "files": [
     "lib/*",
-    "bds-template/*"
+    "bds-template/*",
+    "schema/*"
   ],
   "bugs": {
     "url": "https://github.com/bedrock-libraries/bedrock-wss-reload/issues"

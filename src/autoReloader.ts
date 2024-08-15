@@ -1,3 +1,4 @@
+import { logger } from "just-scripts";
 import { MinecraftServer } from "./websocket";
 
 export interface AutoReloaderConfiguration {
@@ -28,7 +29,7 @@ export class AutoReloader {
   }
 
   private init() {
-    this.output = console.log;
+    this.output = logger.info;
     this.start();
   }
 

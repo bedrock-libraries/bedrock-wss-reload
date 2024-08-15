@@ -22,6 +22,7 @@ jobs:
           node-version: "20.x"
       - run: npm ci
       - run: npm run all
+      - run: npx ts-json-schema-generator --path 'src/manifest.ts' --type 'PackJson' --out schema/pack.json
       - run: npx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -11,6 +11,7 @@ import {
   JsonFile,
   PosixModeBits,
 } from "@rushstack/node-core-library";
+import { logger } from "just-scripts";
 
 function getPlatform() {
   return os.platform() === "win32" ? "win" : "linux";
@@ -81,7 +82,7 @@ export function fetchBdsVersion(desiredPlatform: BdsPlatformId) {
         throw new Error("No Href");
       }
 
-      console.log(`Href for platform ${desiredPlatform}:`, href);
+      logger.info(`Href for platform ${desiredPlatform}:`, href);
 
       // Extract the file name from the href
       const fileName = path.basename(href);
@@ -90,7 +91,7 @@ export function fetchBdsVersion(desiredPlatform: BdsPlatformId) {
 
       // Check if the file already exists
       if (fs.existsSync(filePath)) {
-        console.log(`File already exists: ${filePath}`);
+        logger.info(`File already exists: ${filePath}`);
         return;
       }
 
@@ -111,13 +112,13 @@ export function fetchBdsVersion(desiredPlatform: BdsPlatformId) {
 
       return new Promise((resolve, reject) => {
         writer.on("finish", async () => {
-          console.log(`File downloaded: ${filePath}`);
+          logger.info(`File downloaded: ${filePath}`);
           resolve(filePath);
         });
         writer.on("error", reject);
       });
     } catch (error) {
-      console.error("Error fetching BDS version:", error);
+      logger.error("Error fetching BDS version:", error);
       throw error;
     }
   };

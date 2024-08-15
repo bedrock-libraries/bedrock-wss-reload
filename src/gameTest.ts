@@ -8,6 +8,7 @@ import { spawn, ChildProcessWithoutNullStreams } from "child_process";
 import * as readline from "readline";
 import { platform } from "os";
 import { glob } from "glob";
+import { logger } from "just-scripts";
 
 export function runAllGameTestsTask() {
   return async () => {
@@ -122,9 +123,9 @@ class TestRunner {
           const testInstance = this.results[testClass][testName];
           const { expectedRuns, failures, successes } = testInstance;
           if (expectedRuns === successes) {
-            console.log(`${testClass}:${testName} ✅`);
+            logger.info(`${testClass}:${testName} ✅`);
           } else {
-            console.log(`${testClass}:${testName} ❌`);
+            logger.error(`${testClass}:${testName} ❌`);
             errorCount++;
           }
         }
