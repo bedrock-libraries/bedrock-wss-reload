@@ -11,7 +11,7 @@ import {
   JsonFile,
   PosixModeBits,
 } from "@rushstack/node-core-library";
-import { logger, option } from "just-scripts";
+import { logger, option, argv } from "just-scripts";
 import { getOrThrowFromProcess } from "./common";
 import assert = require("assert");
 
@@ -64,7 +64,7 @@ const bdsLatestVersionCache = new Map<BdsPlatformId, string>();
 
 export function fetchBdsVersion(desiredPlatform: BdsPlatformId) {
   return async () => {
-    if (process.env["MINECRAFT_EULA"] !== "true") {
+    if (process.env["MINECRAFT_EULA"] !== "true" || argv()["accept-eula"]) {
       logger.error(
         "You must agree to the Minecraft EULA by and Microsoft Privacy Policy setting the environment variable `MINECRAFT_EULA=true` (or running again with `--accept-eula`) to download Bedrock Dedicated Server. https://www.minecraft.net/en-us/eula https://privacy.microsoft.com/en-us/privacystatement"
       );
