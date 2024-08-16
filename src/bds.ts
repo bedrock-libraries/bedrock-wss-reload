@@ -12,6 +12,8 @@ import {
   PosixModeBits,
 } from "@rushstack/node-core-library";
 import { logger } from "just-scripts";
+import { getOrThrowFromProcess } from "./common";
+import assert = require("assert");
 
 function getPlatform() {
   return os.platform() === "win32" ? "win" : "linux";
@@ -57,6 +59,12 @@ const bdsLatestVersionCache = new Map<BdsPlatformId, string>();
 
 export function fetchBdsVersion(desiredPlatform: BdsPlatformId) {
   return async () => {
+    const eula = getOrThrowFromProcess("MINECRAFT_EULA");
+    if (eula !== "true") {
+      logger.error(
+        "You must agree to the Minecraft EULA by setting the environment variable `MINECRAFT_EULA=true` to download Bedrock Dedicated Server. https://www.minecraft.net/en-us/eula https://privacy.microsoft.com/en-us/privacystatement"
+      );
+    }
     try {
       if (bdsLatestVersionCache.has(desiredPlatform)) {
         return;
